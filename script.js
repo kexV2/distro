@@ -1,33 +1,28 @@
 
-// Firebase Config Placeholder (fill with your project credentials)
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+// Firebase v10 CDN-based initialization (works on GitHub Pages)
+// Make sure you include these in your index.html BEFORE this script:
+// <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
+// <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js"></script>
+// <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"></script>
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: "AIzaSyDxz4mbwdPsFrY4JhvGFELVYPww15DEAj8",
   authDomain: "hightable-5aa03.firebaseapp.com",
   projectId: "hightable-5aa03",
-  storageBucket: "hightable-5aa03.firebasestorage.app",
+  storageBucket: "hightable-5aa03.appspot.com",
   messagingSenderId: "381435054262",
   appId: "1:381435054262:web:bc90b673c48864e3d9fe17",
   measurementId: "G-MVBJSDLN2B"
 };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.firestore();
 
-// Utility to convert usernames to Firebase-compatible fake emails
 function usernameToEmail(username) {
     return username.toLowerCase() + "@hightable.app";
 }
 
-// Login Logic using Firebase Auth
 document.querySelector('.login-form').addEventListener('submit', function(e) {
     e.preventDefault();
     const username = document.getElementById('username').value.trim();
@@ -46,9 +41,10 @@ document.querySelector('.login-form').addEventListener('submit', function(e) {
         });
 });
 
-// Fetch products from Firestore
 function fetchProducts() {
-    const productGrid = document.getElementById('productGrid');
+    const productGrid = document.querySelector('.product-grid');
+    if (!productGrid) return;
+
     db.collection("products").get().then(snapshot => {
         productGrid.innerHTML = '';
         snapshot.forEach(doc => {
@@ -56,24 +52,39 @@ function fetchProducts() {
             const card = document.createElement('div');
             card.className = 'product-card';
             card.innerHTML = `
-                <h3>${data.name}</h3>
-                <p>Price: $${data.price}</p>
-                <button class="btn">Add to Cart</button>
+                <div class="product-name">${data.name}</div>
+                <div class="product-price">$${data.price}</div>
+                <div class="quantity-selector">
+                    <button class="quantity-btn">-</button>
+                    <span class="quantity-display">1</span>
+                    <button class="quantity-btn">+</button>
+                </div>
+                <button class="add-to-cart btn">Add to Cart</button>
             `;
             productGrid.appendChild(card);
         });
     });
 }
 
-// Navigation
 function showStore() {
     document.getElementById('storeSection').style.display = 'block';
+    document.getElementById('ordersSection').style.display = 'none';
+    document.querySelectorAll('.nav-btn')[0].classList.add('active');
+    document.querySelectorAll('.nav-btn')[1].classList.remove('active');
 }
 
-// Logout
+function showOrders() {
+    document.getElementById('storeSection').style.display = 'none';
+    document.getElementById('ordersSection').style.display = 'block';
+    document.querySelectorAll('.nav-btn')[0].classList.remove('active');
+    document.querySelectorAll('.nav-btn')[1].classList.add('active');
+}
+
 function logout() {
     auth.signOut().then(() => {
-        document.getElementById('storePage').classList.add('hidden');
         document.getElementById('loginPage').classList.remove('hidden');
+        document.getElementById('storePage').classList.add('hidden');
+        document.getElementById('username').value = '';
+        document.getElementById('password').value = '';
     });
 }
