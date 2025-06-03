@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Urban Supply Co.</title>
+    
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Login Page -->
+    <div id="loginPage">
+        <div class="container">
+            <div class="logo">
+                <h1>URBAN SUPPLY CO.</h1>
+                <p>Premium Quality • Discrete Service</p>
+            </div>
+            <form class="login-form">
+                <div class="input-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button type="submit" class="btn">Access Store</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Store Page -->
+    <div id="storePage" class="hidden">
+        <div class="wide-container">
+            <div class="store-header">
+                <div>
+                    <h2>Welcome to Urban Supply</h2>
+                    <p class="user-info">Logged in as: <span id="currentUser"></span></p>
+                </div>
+                <div>
+                    <button class="nav-btn active" onclick="showStore()">Store</button>
+                    <button class="nav-btn" onclick="showOrders()">Orders</button>
+                    <button class="nav-btn" onclick="logout()">Logout</button>
+                </div>
+            </div>
+
+            <!-- Store Section -->
+            <div id="storeSection">
+                <div class="product-grid">
+                    <div class="product-card">
+                        <div class="product-name">Premium Grade</div>
+                        <div class="product-price">$250 /g</div>
+                        <div class="quantity-selector">
+                            <button class="quantity-btn" onclick="changeQuantity('premium', -1)">-</button>
+                            <span class="quantity-display" id="premium-qty">1</span>
+                            <button class="quantity-btn" onclick="changeQuantity('premium', 1)">+</button>
+                        </div>
+                        <button class="add-to-cart" onclick="addToCart('premium')">Add to Cart</button>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-name">Standard Grade</div>
+                        <div class="product-price">$180 /g</div>
+                        <div class="quantity-selector">
+                            <button class="quantity-btn" onclick="changeQuantity('standard', -1)">-</button>
+                            <span class="quantity-display" id="standard-qty">1</span>
+                            <button class="quantity-btn" onclick="changeQuantity('standard', 1)">+</button>
+                        </div>
+                        <button class="add-to-cart" onclick="addToCart('standard')">Add to Cart</button>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-name">Bulk Package</div>
+                        <div class="product-price">$400 /5g</div>
+                        <div class="quantity-selector">
+                            <button class="quantity-btn" onclick="changeQuantity('bulk', -1)">-</button>
+                            <span class="quantity-display" id="bulk-qty">1</span>
+                            <button class="quantity-btn" onclick="changeQuantity('bulk', 1)">+</button>
+                        </div>
+                        <button class="add-to-cart" onclick="addToCart('bulk')">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Orders Section -->
+            <div id="ordersSection" class="orders-section">
+                <div id="ordersList">
+                    <div class="order-card">
+                        <div class="order-header">
+                            <span class="order-id">Order #RP-2025-001</span>
+                            <span class="order-status status-processing">Processing</span>
+                        </div>
+                        <p><strong>Items:</strong> Premium Grade x2</p>
+                        <p><strong>Total:</strong> $500</p>
+                        <p><strong>Delivery:</strong> Downtown LS</p>
+                    </div>
+
+                    <div class="order-card">
+                        <div class="order-header">
+                            <span class="order-id">Order #RP-2025-002</span>
+                            <span class="order-status status-ready">Ready for Pickup</span>
+                        </div>
+                        <p><strong>Items:</strong> Standard Grade x1</p>
+                        <p><strong>Total:</strong> $180</p>
+                        <p><strong>Pickup:</strong> Warehouse District</p>
+                    </div>
+
+                    <div class="order-card">
+                        <div class="order-header">
+                            <span class="order-id">Order #RP-2025-003</span>
+                            <span class="order-status status-delivered">Delivered</span>
+                        </div>
+                        <p><strong>Items:</strong> Bulk Package x1</p>
+                        <p><strong>Total:</strong> $400</p>
+                        <p><strong>Delivered:</strong> 2 days ago</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    <script src="script.js"></script>
+</body>
+</html>
